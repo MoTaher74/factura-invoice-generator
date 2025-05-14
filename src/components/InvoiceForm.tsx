@@ -1,17 +1,61 @@
 import { Plus, Trash2, X } from "lucide-react";
+import { useDispatch } from "react-redux";
+import { toggleForm } from "../store/invoiceSlice";
+import { useState } from "react";
 
-interface IProps{
-
-
+interface INvoiceFormData {
+  id: string;
+  status: "pending" | "paid" | "draft";  
+  billForm: {
+    street: string;
+    city: string;
+    postCode: string;
+    country: string;
+  };
+  billTo: {
+    clientName: string;
+    email: string;
+    street: string;
+    city: string;
+    postCode: string;
+    country: string;
+  };
+  date: string;
+  paymentTerms: string;
+  projectDescription: string;
 }
-
 const InvoiceForm =({}:IProps)=>{
+    const dispatch = useDispatch();
+
+    const [formData,setFormData] = useState<INvoiceFormData>(()=>{
+       return {
+        id:`INV-${Math.floor(Math.random()*1000000)}`,
+        status:"pending",
+            billForm:{
+            street:"",
+            city:"",
+            postCode:"",
+            country:""
+        },
+        billTo:{
+            clientName:"",
+            email:"",
+            street:"",
+            city:"",
+            postCode:"",
+            country:""
+        },
+        date:"",
+        paymentTerms:"",
+        projectDescription:""
+       } 
+    })
 return (
     <section className="fixed inset-0 bg-black/50 flex items-start justify-center overflow-y-auto">
         <div className="bg-red-200 rounded-lg w-full max-w-2xl mt-8 mb-8">
             <div className="flex justify-between items-center my-5 px-5">
             <h1 className="text-2xl font-semibold">New Invoice</h1>
-            <button>
+            <button type="button" onClick={()=>dispatch(toggleForm())}>
                 <X size={20}/>
             </button>
             </div>
